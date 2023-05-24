@@ -34,7 +34,15 @@ namespace Services.Implementations
             return true;
         }
 
-        public async Task<IdentityResult> RegisterUser(UserViewModel model)
+        public async Task<bool> LoginUser(LoginViewModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null) return false;
+            return await _userManager.CheckPasswordAsync(user, model.Password);
+
+        }
+
+        public async Task<IdentityResult> RegisterUser(RegisterViewModel model)
         {
             IdentityUser user = new()
             {

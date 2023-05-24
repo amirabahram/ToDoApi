@@ -19,7 +19,7 @@ namespace ToDoApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(UserViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if(!ModelState.IsValid)
             {
@@ -42,15 +42,20 @@ namespace ToDoApi.Controllers
             }
             return Ok();
         }
-        //[HttpPost]
-        //public async Task<IActionResult> Login(LoginViewModel model)
-        //{
-        //    if(!ModelState.IsValid)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var validateResult = await _userService.LoginUser(model);
+            if (!validateResult)
+            {
+                return Unauthorized(model);
+            }
+            return Ok();
+        }
 
     }
 }

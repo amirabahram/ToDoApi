@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace Entities.ViewModels
 {
-    public class UserViewModel
+    public class RegisterViewModel
     {
-
+        [Required]
         public string UserName { get; set; }
+        [Required]
+        [EmailAddress]
         public string Email { get; set; }
-
+        [Required]
         public string Password { get; set; }
 
     }

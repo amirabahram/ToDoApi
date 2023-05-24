@@ -11,6 +11,7 @@ namespace Services.Interfaces
     public interface IUserService
     {
         Task<bool> EmailExists(string email);
-        Task<IdentityResult> RegisterUser(UserViewModel model);
+        Task<IdentityResult> RegisterUser(RegisterViewModel model);
+        Task<bool> LoginUser(LoginViewModel model);
     }
 }
