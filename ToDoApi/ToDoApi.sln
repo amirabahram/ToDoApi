@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoApi", "ToDoApi.csproj", "{9E4DB0CD-1374-479B-92F7-E162A4A515B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApi.WebAPI", "ToDoApi.WebAPI.csproj", "{9E4DB0CD-1374-479B-92F7-E162A4A515B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Common\Common.csproj", "{DD442FF2-7F26-4F03-BD28-69A19844A07E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApi.Common", "..\Common\ToDoApi.Common.csproj", "{DD442FF2-7F26-4F03-BD28-69A19844A07E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "..\Entities\Entities.csproj", "{18341F54-1951-465D-850B-E76A0A0E0F87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApi.Entities", "..\Entities\ToDoApi.Entities.csproj", "{18341F54-1951-465D-850B-E76A0A0E0F87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "..\Data\Data.csproj", "{894EC4C5-8548-46B2-A8C2-A678FFE1A658}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApi.Data", "..\Data\ToDoApi.Data.csproj", "{894EC4C5-8548-46B2-A8C2-A678FFE1A658}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "..\Services\Services.csproj", "{14B13E54-D6B5-4C9B-8656-CCA28894A9FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApi.Services", "..\Services\ToDoApi.Services.csproj", "{14B13E54-D6B5-4C9B-8656-CCA28894A9FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebFramework", "..\WebFramework\WebFramework.csproj", "{4FCAE73D-AFAE-4508-A59C-8F16DDEDB801}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApi.WebFramework", "..\WebFramework\ToDoApi.WebFramework.csproj", "{4FCAE73D-AFAE-4508-A59C-8F16DDEDB801}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

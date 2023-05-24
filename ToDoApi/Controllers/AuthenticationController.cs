@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Services.Interfaces;
-
+using System.Text;
+using ToDoApi.Entities.ViewModels;
 
 namespace ToDoApi.Controllers
 {
@@ -13,9 +15,11 @@ namespace ToDoApi.Controllers
     {
 
         private readonly IUserService _userService;
-        public AuthenticationController(IUserService _userService)
+
+        public AuthenticationController(IUserService userService)
         {
-            this._userService = _userService;
+            this._userService = userService;
+           
         }
 
         [HttpPost]
@@ -43,7 +47,7 @@ namespace ToDoApi.Controllers
             return Ok();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<ActionResult<ResponseViewModel>> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -54,8 +58,11 @@ namespace ToDoApi.Controllers
             {
                 return Unauthorized(model);
             }
-            return Ok();
+            var response = await  _userService.GenerateToken(model);
+
+            return response;
         }
+
 
     }
 }
