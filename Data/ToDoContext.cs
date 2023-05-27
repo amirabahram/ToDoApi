@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ToDoApi.Entities.Models;
 
 namespace Data
 {
@@ -27,5 +28,7 @@ namespace Data
                 
                 );
         }
+
+        public DbSet<UserTask> Tasks { get; set; }
     }
 }

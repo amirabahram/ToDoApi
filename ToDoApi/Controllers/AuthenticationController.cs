@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Services.Interfaces;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using ToDoApi.Entities.ViewModels;
 
@@ -16,10 +19,15 @@ namespace ToDoApi.Controllers
 
         private readonly IUserService _userService;
 
+
+
+
         public AuthenticationController(IUserService userService)
         {
             this._userService = userService;
-           
+
+
+
         }
 
         [HttpPost]
@@ -59,10 +67,11 @@ namespace ToDoApi.Controllers
                 return Unauthorized(model);
             }
             var response = await  _userService.GenerateToken(model);
+            
 
             return response;
         }
 
-
+        
     }
 }

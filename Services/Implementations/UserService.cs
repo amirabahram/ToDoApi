@@ -1,4 +1,5 @@
 ﻿using Entities.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 
@@ -20,13 +21,16 @@ namespace Services.Implementations
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContext;
 
         public UserService(UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> roleManager, IConfiguration _configuration)
+            RoleManager<IdentityRole> roleManager, IConfiguration _configuration
+            ,IHttpContextAccessor httpContext)
         {
             this._userManager = userManager;
             this._roleManager = roleManager;
             this._configuration = _configuration;
+            this._httpContext = httpContext;
         }
 
         public async Task<bool> EmailExists(string email)
@@ -74,6 +78,11 @@ namespace Services.Implementations
                 
         }
 
+        public async Task<string> GetUserId()
+        {
+             return  _httpContext.HttpContext.User?.FindFirstValue(JwtRegisteredClaimNames.Jti);
+        }
+
         public async Task<bool> LoginUser(LoginViewModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
@@ -96,6 +105,7 @@ namespace Services.Implementations
             if (result.Succeeded) await _userManager.AddToRoleAsync(user,"User");
             return result;
         }
+
 
         
     }

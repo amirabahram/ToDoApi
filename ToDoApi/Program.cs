@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Net;
 using System.Text;
 using WebFramework;
 
@@ -39,6 +41,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
 
 })
     .AddJwtBearer(option=>
@@ -57,25 +60,35 @@ builder.Services.AddAuthentication(options =>
     });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-//************************************************************************************
-//builder.Services.AddIdentity<IdentityUser, IdentityRole>(Options =>
-//{
-//    Options.Password.RequiredLength = 2;
-//    Options.Password.RequireNonAlphanumeric = false;
-//    Options.Password.RequireDigit = false;
-//    Options.Password.RequireLowercase = false;
-//    Options.Password.RequireUppercase = false;
-//    Options.Lockout.MaxFailedAccessAttempts = 5;
-//    Options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-//})
-//    .AddEntityFrameworkStores<ToDoContext>();
-//*************************************************************************************
-//builder.Services.ConfigureApplicationCookie(options =>
-//{
-//    options.LoginPath = "/Account/Login";
-//    options.AccessDeniedPath = "/Account/AccessDenied";
-//});
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "dotnetClaimAuthorization", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please Insert Token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});
+
+
 
 var app = builder.Build();
 

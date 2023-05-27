@@ -15,5 +15,6 @@ namespace Services.Interfaces
         Task<IdentityResult> RegisterUser(RegisterViewModel model);
         Task<bool> LoginUser(LoginViewModel model);
         Task<ResponseViewModel> GenerateToken(LoginViewModel model);
+        Task<string> GetUserId();
     }
 }
