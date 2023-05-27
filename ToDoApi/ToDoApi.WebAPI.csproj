@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebFramework\ToDoApi.WebFramework.csproj" />
+    <ProjectReference Include="..\WebFramework\ToDoApi.IoC.csproj" />
   </ItemGroup>
 
 </Project>

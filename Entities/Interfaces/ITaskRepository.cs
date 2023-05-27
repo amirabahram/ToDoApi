@@ -14,6 +14,6 @@ namespace ToDoApi.Entities.Interfaces
         Task InsertTask(UserTask task);
         void UpdateTask(UserTask task);
         void DeleteTask(UserTask task);
-        Task Save();
+        void Save();
     }
 }

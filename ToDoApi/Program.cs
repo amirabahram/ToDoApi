@@ -31,7 +31,7 @@ DependencyContainers.RegisterServices(builder.Services);//related to IoC
 
 
 
-builder.Services.AddControllers();
+//////controllers!!!
 
 
 
@@ -60,9 +60,12 @@ builder.Services.AddAuthentication(options =>
     });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+
+builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "dotnetClaimAuthorization", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "To-Do API with Identity & JWT ", Version = "v1" });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,

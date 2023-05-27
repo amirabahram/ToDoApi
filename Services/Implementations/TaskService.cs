@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using ToDoApi.Entities.Interfaces;
@@ -24,9 +25,20 @@ namespace ToDoApi.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<UserTaskViewModel>> GetAllTasks()
+        public async Task<IEnumerable<UserTaskViewModel>> GetAllTasks()
         {
-            throw new NotImplementedException();
+            var list = new List<UserTaskViewModel>();
+            var result = await _taskRepository.GetAllTasks();
+            foreach(var task in result)
+            {
+                var taskViewModel = new UserTaskViewModel()
+                {
+                    Description = task.Description
+
+                };
+                list.Add(taskViewModel);
+            }
+            return list;
         }
 
         public Task<IEnumerable<UserTaskViewModel>> GetTasksByUser(string userId)
@@ -34,12 +46,21 @@ namespace ToDoApi.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<bool> InsertTask(UserTaskViewModel task)
+
+
+        public async Task<bool> InsertTask(UserTaskViewModel task, string userId)
         {
-            throw new NotImplementedException();
+            if (task == null) return false;
+            var entityTask = new UserTask()
+            {
+                UserId = userId,
+                Description = task.Description,
+                CreatedDate = DateTime.Now
+            };
+            await _taskRepository.InsertTask(entityTask);
+             _taskRepository.Save();
+            return true;
         }
-
-
 
         public bool UpdateTask(UserTaskViewModel task)
         {

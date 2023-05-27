@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Entities\ToDoApi.Entities.csproj" />
+    <ProjectReference Include="..\Entities\ToDoApi.Domain.csproj" />
   </ItemGroup>
 
 </Project>

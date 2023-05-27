@@ -53,9 +53,11 @@ namespace Services.Implementations
             var userClaims = await _userManager.GetClaimsAsync(user);
             var claims = new List<Claim>()
             {
-                new Claim(JwtRegisteredClaimNames.Sub,user.UserName),
+                new Claim(JwtRegisteredClaimNames.Sub,user.Id),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email,user.Email),
+                
+               
             }
             .Union(userClaims)
             .Union(roleClaims);
@@ -80,7 +82,8 @@ namespace Services.Implementations
 
         public async Task<string> GetUserId()
         {
-             return  _httpContext.HttpContext.User?.FindFirstValue(JwtRegisteredClaimNames.Jti);
+            return   _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            
         }
 
         public async Task<bool> LoginUser(LoginViewModel model)

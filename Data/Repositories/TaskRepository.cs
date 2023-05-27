@@ -39,9 +39,9 @@ namespace ToDoApi.Data.Repositories
             await _db.Tasks.AddAsync(task);
         }
 
-        public async Task Save()
+        public void Save()
         {
-            await _db.SaveChangesAsync();
+            _db.SaveChanges();
         }
 
         public void UpdateTask(UserTask task)

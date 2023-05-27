@@ -17,6 +17,7 @@ namespace Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<UserTask>().HasKey(x => x.Id);
             SeedRoles(builder);
         }
 

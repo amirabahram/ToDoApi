@@ -11,8 +11,8 @@ namespace ToDoApi.Entities.Models
 {
     public class UserTask
     {
+        
         public int Id { get; set; }
-        public string UserName { get; set; }
         [MaxLength(1000)]
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }

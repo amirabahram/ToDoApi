@@ -12,7 +12,7 @@ using ToDoApi.Entities.ViewModels;
 
 namespace ToDoApi.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("[controller]/[action]")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {

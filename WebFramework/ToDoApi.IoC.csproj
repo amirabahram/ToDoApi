@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Services\ToDoApi.Services.csproj" />
+    <ProjectReference Include="..\Services\ToDoApi.Application.csproj" />
   </ItemGroup>
 
 </Project>
