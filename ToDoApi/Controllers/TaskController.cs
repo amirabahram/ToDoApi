@@ -1,15 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage;
 using Services.Interfaces;
 using System.Diagnostics.Eventing.Reader;
+using ToDoApi.Domain.ViewModels;
 using ToDoApi.Entities.ViewModels;
 using ToDoApi.Services.Interfaces;
 
 
 namespace ToDoApi.WebAPI.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("[controller]/[action]")]
     [ApiController]
     public class TaskController : ControllerBase
     {
@@ -23,7 +25,7 @@ namespace ToDoApi.WebAPI.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreateTask(UserTaskViewModel model)
+        public async Task<IActionResult> CreateTask(InsertTaskViewModel model)
         {
             var id = await _userService.GetUserId();
             
@@ -44,5 +46,36 @@ namespace ToDoApi.WebAPI.Controllers
             return result;
         }
 
+        [HttpGet("{Email}")]
+        public async Task<IEnumerable<UserTaskViewModel>> FilterTasksByEmail(string Email)
+        {
+
+            try
+            {
+                var result = await _taskService.GetTasksByUserEmail(Email);
+                return result;
+            }
+            catch (Exception ex)
+            {
+
+                return Enumerable.Empty<UserTaskViewModel>();
+            }
+        }
+        [HttpPut]
+        public async Task<UpdateTaskViewModel> UpdateTaskById(UpdateTaskViewModel model)
+        {
+
+            var result = await _taskService.UpdateTask(model);
+            return result;
+
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTaskById(int id)
+        {
+            var result = await _taskService.DeleteTask(id);
+            if (result) { return Ok(result); }
+            else { return BadRequest(); }
+            
+         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,12 +28,19 @@ namespace ToDoApi.Data.Repositories
             return await _db.Tasks.ToListAsync();
         }
 
+        public async Task<UserTask> GetTaskById(int taskId)
+        {
+            return await _db.Tasks.FirstOrDefaultAsync(i=>i.Id == taskId);
+        }
+
         public async Task<IEnumerable<UserTask>> GetTasksByUser(string userId)
         {
             IQueryable<UserTask> query = _db.Tasks;
             query = query.Where(x => x.UserId == userId);
             return await query.ToListAsync();
         }
+
+
 
         public async Task InsertTask(UserTask task)
         {

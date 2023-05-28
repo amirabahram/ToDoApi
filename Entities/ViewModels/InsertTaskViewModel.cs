@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToDoApi.Entities.ViewModels
+namespace ToDoApi.Domain.ViewModels
 {
-    public class UserTaskViewModel
+    public class InsertTaskViewModel
     {
-        public int TaskId { get; set; }
+
         public string Description { get; set; }
-        public string UserName { get; set; }
+
     }
 }
