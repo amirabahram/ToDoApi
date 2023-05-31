@@ -71,6 +71,7 @@ namespace ToDoApi.Services.Implementations
         {
             
             var oldTask  =await _taskRepository.GetTaskById(task.TaskId);
+            if (oldTask == null) return null;
             oldTask.Description = task.Description;
             _taskRepository.UpdateTask(oldTask);
             _taskRepository.Save();
@@ -89,6 +90,7 @@ namespace ToDoApi.Services.Implementations
         {
             if (taskId == 0) return false;
             var task = await _taskRepository.GetTaskById(taskId);
+            if (task == null) return false;
             _taskRepository.DeleteTask(task);
             _taskRepository.Save();
             return true;

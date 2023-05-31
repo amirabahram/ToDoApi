@@ -62,19 +62,29 @@ namespace ToDoApi.WebAPI.Controllers
             }
         }
         [HttpPut]
-        public async Task<UpdateTaskViewModel> UpdateTaskById(UpdateTaskViewModel model)
+        [Authorize]
+        public async Task<ActionResult<UpdateTaskViewModel>> UpdateTaskById(UpdateTaskViewModel model)
         {
 
             var result = await _taskService.UpdateTask(model);
-            return result;
+            if(result != null)
+            {
+                return result;
+            }
+            else
+            {
+                return NotFound("Task Not Found!");
+            }
+            
 
         }
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteTaskById(int id)
         {
             var result = await _taskService.DeleteTask(id);
-            if (result) { return Ok(result); }
-            else { return BadRequest(); }
+            if (result) { return Ok($"The Task By id of {id} deleted successfuly!"); }
+            else { return NotFound("Task Not Found!") ; }
             
          }
     }
