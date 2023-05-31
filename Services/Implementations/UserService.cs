@@ -38,9 +38,9 @@ namespace Services.Implementations
             var result = await _userManager.FindByEmailAsync(email);
             if(result != null)
             {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
 
         public async Task<ResponseViewModel> GenerateToken(LoginViewModel model)

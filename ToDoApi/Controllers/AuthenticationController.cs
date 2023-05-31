@@ -33,24 +33,24 @@ namespace ToDoApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
             var emailCheckResult = await _userService.EmailExists(model.Email);
-            if(emailCheckResult ) return BadRequest();
+            if (emailCheckResult) return Conflict("Email Already Exists!");
 
             var createResult = await _userService.RegisterUser(model);
 
             if (createResult.Succeeded == false)
             {
+                
                 foreach(var item in createResult.Errors)
                 {
-                    ModelState.AddModelError(item.Code, item.Description);
-                    return BadRequest();
+                    ModelState.AddModelError(item.Code, item.Description);  
                 }
-
+                return BadRequest(ModelState);
             }
             return Ok();
         }
