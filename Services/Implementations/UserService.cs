@@ -79,7 +79,7 @@ namespace Services.Implementations
 
                 
         }
-
+        
         public async Task<string> GetUserId()
         {
             return   _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);

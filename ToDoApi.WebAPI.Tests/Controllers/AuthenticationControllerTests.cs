@@ -13,7 +13,10 @@ namespace ToDoApi.WebAPI.Tests.Controllers
     {
         private readonly IFixture _fixture;
         private readonly Mock<IUserService> _userServiceMock;
+        
         private readonly AuthenticationController _sut;
+
+
         public AuthenticationControllerTests()
         {
             _fixture = new Fixture();

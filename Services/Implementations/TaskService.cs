@@ -55,7 +55,7 @@ namespace ToDoApi.Services.Implementations
 
         public async Task<bool> InsertTask(InsertTaskViewModel task, string userId)
         {
-            if (task == null) return false;
+            if (task == null || string.IsNullOrEmpty(userId)) return false;
             var entityTask = new UserTask()
             {
                 UserId = userId,
@@ -75,7 +75,7 @@ namespace ToDoApi.Services.Implementations
             oldTask.Description = task.Description;
             _taskRepository.UpdateTask(oldTask);
             _taskRepository.Save();
-            var newTask = await _taskRepository.GetTaskById(task.TaskId);
+
             var taskViewModel = new UpdateTaskViewModel()
             {
                 TaskId = task.TaskId,
@@ -100,7 +100,7 @@ namespace ToDoApi.Services.Implementations
         {
             var user = await _userManager.FindByEmailAsync(email);
             var list = new List<UserTaskViewModel>();
-            var tasks = await _taskRepository.GetTasksByUser(user.Id);
+            var tasks = await _taskRepository.GetTasksByUser(user?.Id);
             
             foreach (var item in tasks)
             {
