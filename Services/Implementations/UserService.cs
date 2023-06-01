@@ -19,16 +19,16 @@ namespace Services.Implementations
     public class UserService : IUserService
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        //private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContext;
 
         public UserService(UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> roleManager, IConfiguration _configuration
-            ,IHttpContextAccessor httpContext)
+             IConfiguration _configuration,
+            IHttpContextAccessor httpContext)
         {
             this._userManager = userManager;
-            this._roleManager = roleManager;
+            //this._roleManager = roleManager;
             this._configuration = _configuration;
             this._httpContext = httpContext;
         }
