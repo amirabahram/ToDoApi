@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToDoApi.Application.Tests.Implementations
+namespace ToDoApi.Application.Tests.Implementations.Extensions
 {
     public class TestPrincipal : ClaimsPrincipal
     {

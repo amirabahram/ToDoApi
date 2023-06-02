@@ -2,6 +2,7 @@ using Castle.Core.Configuration;
 using Entities.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Services.Implementations;
@@ -9,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using ToDoApi.Application.Tests.Implementations.Extensions;
 using ToDoApi.Entities.ViewModels;
 
 namespace ToDoApi.Application.Tests.Implementations
@@ -19,18 +21,22 @@ namespace ToDoApi.Application.Tests.Implementations
 
         private readonly IFixture _fixture;
         private readonly Mock<UserManager<IdentityUser>> _userManagerMock;
+        private readonly Mock<UserManager<IdentityUser>> _userManagerWithStoreMock;
         private readonly Mock<Microsoft.Extensions.Configuration.IConfiguration> _configurationMock;
         private readonly Mock<IHttpContextAccessor> _contextAccessorMock;
+        private readonly Mock<IUserStore<IdentityUser>> _storeMock;
         private readonly UserService _sut;
 
         public UserServiceTests()
         {
             _fixture = new Fixture();
             _userManagerMock = MockHelpers.MockUserManager<IdentityUser>();
-
+            _storeMock = new Mock<IUserStore<IdentityUser>>();
+            _userManagerWithStoreMock = new Mock<UserManager<IdentityUser>>(_storeMock.Object);
             _configurationMock = new Mock<Microsoft.Extensions.Configuration.IConfiguration>();
             _configurationMock.SetupGet(x => x[It.Is<string>(s => s == "ConnectionStrings:default")]).Returns("mock value");
             _contextAccessorMock = _fixture.Freeze<Mock<IHttpContextAccessor>>();
+            _storeMock = new Mock<IUserStore<IdentityUser>>();
             _sut = new UserService(_userManagerMock.Object, _configurationMock.Object,_contextAccessorMock.Object);
         }
 
@@ -123,14 +129,53 @@ namespace ToDoApi.Application.Tests.Implementations
             Claim claim = new Claim(ClaimTypes.NameIdentifier, id);
             _contextAccessorMock.Setup(x => x.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)).Returns(claim);
 
-
-
-
-
             var result = await _sut.GetUserId();
 
             result.Should().NotBeNull();
             Assert.Equal(id, result);
         }
+        [Fact]
+        public async Task LoginUser_ShouldReturnFalse_WhenUserNotFound()
+        {
+            var model= _fixture.Create<LoginViewModel>();
+            IdentityUser user = null;
+            _userManagerMock.Setup(x => x.FindByEmailAsync(model.Email)).ReturnsAsync(user);
+            _userManagerMock.Setup(x=>x.CheckPasswordAsync(user, model.Password)).ReturnsAsync(true);
+
+            var result = await _sut.LoginUser(model);
+
+            result.Should().BeFalse();
+            _userManagerMock.Verify(x=>x.CheckPasswordAsync(user,model.Password),Times.Never);
+        }
+        [Fact]
+        public async Task LoginUser_ShouldReturnFalse_WhenPasswordDoesntMatch()
+        {
+            var model = _fixture.Create<LoginViewModel>();
+            IdentityUser user = _fixture.Create<IdentityUser>();
+            
+            _userManagerMock.Setup(x => x.FindByEmailAsync(model.Email)).ReturnsAsync(user);
+            _userManagerMock.Setup(x => x.CheckPasswordAsync(user, model.Password)).ReturnsAsync(false);
+
+            var result = await _sut.LoginUser(model);
+
+            result.Should().BeFalse();
+            _userManagerMock.Verify(x => x.CheckPasswordAsync(user, model.Password), Times.Once);
+        }
+        [Fact]
+        public async Task LoginUser_ShouldReturnTrue_WhenPasswordMatches()
+        {
+            var model = _fixture.Create<LoginViewModel>();
+            IdentityUser user = _fixture.Create<IdentityUser>();
+
+            _userManagerMock.Setup(x => x.FindByEmailAsync(model.Email)).ReturnsAsync(user);
+            _userManagerMock.Setup(x => x.CheckPasswordAsync(user, model.Password)).ReturnsAsync(true);
+
+            var result = await _sut.LoginUser(model);
+
+            result.Should().BeTrue();
+            _userManagerMock.Verify(x => x.CheckPasswordAsync(user, model.Password), Times.Once);
+        }
+
+
     }
 }

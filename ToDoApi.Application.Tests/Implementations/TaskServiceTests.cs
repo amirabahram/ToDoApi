@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ToDoApi.Application.Tests.Implementations.Extensions;
 using ToDoApi.Domain.Interfaces;
 using ToDoApi.Domain.ViewModels;
 using ToDoApi.Entities.Interfaces;
@@ -10,7 +11,7 @@ using ToDoApi.Services.Implementations;
 
 namespace ToDoApi.Application.Tests.Implementations
 {
-    
+
     public class TaskServiceTests
     {
         private readonly IFixture _fixture;

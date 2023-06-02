@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace ToDoApi.Application.Tests.Implementations;
+namespace ToDoApi.Application.Tests.Implementations.Extensions;
 
 public static class MockHelpers
 {
