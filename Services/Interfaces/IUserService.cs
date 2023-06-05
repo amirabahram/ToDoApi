@@ -1,4 +1,5 @@
-﻿using Entities.ViewModels;
+﻿using Domain.ViewModels;
+using Entities.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -16,5 +17,6 @@ namespace Services.Interfaces
         Task<bool> LoginUser(LoginViewModel model);
         Task<ResponseViewModel> GenerateToken(LoginViewModel model);
         Task<string> GetUserId();
+        Task<bool> UpdateUser(UpdateUserViewModel model);
     }
 }

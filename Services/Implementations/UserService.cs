@@ -1,8 +1,8 @@
-﻿using Entities.ViewModels;
+﻿using Domain.ViewModels;
+using Entities.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-
 using Microsoft.IdentityModel.Tokens;
 using Services.Interfaces;
 using System;
@@ -109,7 +109,24 @@ namespace Services.Implementations
             return result;
         }
 
+        public async Task<bool> UpdateUser(UpdateUserViewModel model )
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null) return false;
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token,model.Password);
+            if (result.Succeeded)
+            {
+                user.UserName = model.UserName;
+                await _userManager.UpdateAsync(user);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
 
-        
+        }
     }
 }

@@ -1,4 +1,5 @@
 using Castle.Core.Configuration;
+using Domain.ViewModels;
 using Entities.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -25,11 +26,13 @@ namespace ToDoApi.Application.Tests.Implementations
         private readonly Mock<Microsoft.Extensions.Configuration.IConfiguration> _configurationMock;
         private readonly Mock<IHttpContextAccessor> _contextAccessorMock;
         private readonly Mock<IUserStore<IdentityUser>> _storeMock;
+        private readonly Mock<IdentityResult> _resultMock;
         private readonly UserService _sut;
 
         public UserServiceTests()
         {
             _fixture = new Fixture();
+            _resultMock = new Mock<IdentityResult>();
             _userManagerMock = MockHelpers.MockUserManager<IdentityUser>();
             _storeMock = new Mock<IUserStore<IdentityUser>>();
             _userManagerWithStoreMock = new Mock<UserManager<IdentityUser>>(_storeMock.Object);
@@ -174,6 +177,26 @@ namespace ToDoApi.Application.Tests.Implementations
 
             result.Should().BeTrue();
             _userManagerMock.Verify(x => x.CheckPasswordAsync(user, model.Password), Times.Once);
+        }
+        [Fact]
+        public async Task UpdateUser_ShouldReturnFalse_WhenUserNotFound()
+        {
+            var model = _fixture.Create<UpdateUserViewModel>();
+            IdentityUser user = null;
+            string token = _fixture.Create<string>();
+
+            _userManagerMock.Setup(x => x.FindByEmailAsync(model.Email)).ReturnsAsync(user);
+            _userManagerMock.Setup(x=>x.GeneratePasswordResetTokenAsync(user)).ReturnsAsync(token);
+            _userManagerMock.Setup(x=>x.ResetPasswordAsync(user,token,"123")).ReturnsAsync(IdentityResult.Success);
+            _userManagerMock.Setup(x => x.UpdateAsync(user));
+
+            var result = await _sut.UpdateUser(model);
+
+            result.Should().BeFalse();
+            _userManagerMock.Verify(x=>x.FindByEmailAsync(model.Email),Times.Once);
+            _userManagerMock.Verify(x=>x.GeneratePasswordResetTokenAsync(user), Times.Never);
+            _userManagerMock.Verify(x=>x.ResetPasswordAsync(user, token, "123"), Times.Never);
+            _userManagerMock.Verify(x=>x.UpdateAsync(user), Times.Never);
         }
 
 

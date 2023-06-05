@@ -21,5 +21,10 @@ namespace ToDoApi.Data.Repositories
         {
             return await _db.Users.FirstOrDefaultAsync(i => i.Id == userId);
         }
+
+        public void UpdateUser(IdentityUser user)
+        {
+            _db.Users.Update(user);
+        }
     }
 }

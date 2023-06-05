@@ -10,6 +10,7 @@ namespace ToDoApi.Domain.Interfaces
     public interface IUserRepository
     {
         Task<IdentityUser> GetUserById(string userId);
+        void UpdateUser(IdentityUser user);
 
     }
 }
