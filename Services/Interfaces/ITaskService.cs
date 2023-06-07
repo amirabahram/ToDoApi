@@ -13,6 +13,7 @@ namespace ToDoApi.Services.Interfaces
     {
         Task<IEnumerable<UserTaskViewModel>> GetAllTasks();
         Task<IEnumerable<UserTaskViewModel>> GetTasksByUserEmail(string email);
+        Task<string> GetUserIdByTaskId(int taskId);
         Task<bool> InsertTask(InsertTaskViewModel task,string userId);
         Task<UpdateTaskViewModel> UpdateTask(UpdateTaskViewModel task);
         Task<bool> DeleteTask(int taskId);

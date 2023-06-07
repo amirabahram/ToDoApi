@@ -70,7 +70,7 @@ namespace ToDoApi.Services.Implementations
         public  async Task<UpdateTaskViewModel> UpdateTask(UpdateTaskViewModel task)
         {
             
-            var oldTask  =await _taskRepository.GetTaskById(task.TaskId);
+            var oldTask  =await _taskRepository.GetTaskById(task.Id);
             if (oldTask == null) return null;
             oldTask.Description = task.Description;
             _taskRepository.UpdateTask(oldTask);
@@ -78,7 +78,7 @@ namespace ToDoApi.Services.Implementations
 
             var taskViewModel = new UpdateTaskViewModel()
             {
-                TaskId = task.TaskId,
+                Id = task.Id,
                 Description = task.Description
             };
             return taskViewModel;
@@ -113,6 +113,13 @@ namespace ToDoApi.Services.Implementations
                 list.Add(listItem);
             }
             return list;
+        }
+
+        public async Task<string> GetUserIdByTaskId(int taskId)
+        {
+            var task = await _taskRepository.GetTaskById(taskId);
+            if (task == null) return null;
+            return task.UserId;
         }
     }
 }

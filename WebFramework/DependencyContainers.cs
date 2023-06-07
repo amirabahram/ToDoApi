@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Infrastructure.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
 using Services.Implementations;
 using Services.Interfaces;
 using System;
@@ -22,6 +24,7 @@ namespace WebFramework
             services.AddScoped<ITaskService,TaskService>();
             services.AddScoped<ITaskRepository,TaskRepository>();
             services.AddScoped<IUserRepository,UserRepository>();
+            services.AddScoped<IAuthorizationHandler, TaskUpdateRequirementHandler>();
 
         }
     }

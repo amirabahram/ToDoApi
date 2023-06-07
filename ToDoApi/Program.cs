@@ -1,5 +1,5 @@
 using Data;
-
+using Infrastructure.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -38,9 +38,6 @@ DependencyContainers.RegisterServices(builder.Services);//related to IoC
 
 
 
-//////controllers!!!
-
-
 
 //Adding Authentication
 
@@ -69,7 +66,20 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddEndpointsApiExplorer();
 
 
+
+
+
 builder.Services.AddControllers();
+
+
+
+builder.Services.AddAuthorization(Options =>
+{
+    Options.AddPolicy("MustBeCreatorOfTask", policy =>
+    policy.Requirements.Add(new TaskUpdateRequirement()));
+});
+
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "To-Do API with Identity & JWT ", Version = "v1" });

@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToDoApi.Domain.ViewModels
+namespace Domain.ViewModels
 {
-    public class UpdateTaskViewModel
+    public class DeleteTaskViewModel
     {
         public int Id { get; set; }
-        public string Description { get; set; }
-
     }
 }
