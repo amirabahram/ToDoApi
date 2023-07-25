@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+   sqldatab:
+     container_name: app-db
+     image: mcr.microsoft.com/mssql/server:2022-latest
+     environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=123
+   webapi:
+     container_name: webAPI-app
+     image: ${DOCKER_REGISTRY-}webapi
+     build:
+       context: .
+       dockerfile: ToDoApi/Dockerfile
+     ports:
+       - 8001:80
+     depends_on:
+       - sqldatab
+     environment:
+       - DB-HOST=sqldatab
+       - DB-NAME=ToDOAPI_Db
+       - DB-AMIR-PASSWORD = 123
+
+   

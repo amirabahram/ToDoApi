@@ -99,7 +99,7 @@ namespace ToDoApi.Application.Tests.Implementations
         {
             var task = _fixture.Create<UpdateTaskViewModel>();
             UserTask userTask = null;
-            _taskRepositoryMock.Setup(x => x.GetTaskById(task.TaskId)).ReturnsAsync(userTask);
+            _taskRepositoryMock.Setup(x => x.GetTaskById(task.Id)).ReturnsAsync(userTask);
             _taskRepositoryMock.Setup(x => x.UpdateTask(userTask));
             _taskRepositoryMock.Setup(x=>x.Save());
 
@@ -114,7 +114,7 @@ namespace ToDoApi.Application.Tests.Implementations
         {
             var task = _fixture.Create<UpdateTaskViewModel>();
             UserTask userTask = _fixture.Create<UserTask>();
-            _taskRepositoryMock.Setup(x => x.GetTaskById(task.TaskId)).ReturnsAsync(userTask);
+            _taskRepositoryMock.Setup(x => x.GetTaskById(task.Id)).ReturnsAsync(userTask);
             _taskRepositoryMock.Setup(x => x.UpdateTask(userTask));
             _taskRepositoryMock.Setup(x => x.Save());
 

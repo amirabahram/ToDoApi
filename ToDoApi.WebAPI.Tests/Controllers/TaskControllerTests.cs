@@ -1,5 +1,6 @@
 
 
+using Domain.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Services.Interfaces;
@@ -133,20 +134,20 @@ namespace ToDoApi.WebAPI.Tests.Controllers
         [Fact]
         public async Task DeleteTaskById_ShouldReturnOkResult_WhenTaskExsists()
         {
-            var id = _fixture.Create<int>();
+            var model = _fixture.Create<DeleteTaskViewModel>();
            
-            _taskServiceMock.Setup(x => x.DeleteTask(id)).ReturnsAsync(true);
-            var result =await _sut.DeleteTaskById(id);
+            _taskServiceMock.Setup(x => x.DeleteTask(model.Id)).ReturnsAsync(true);
+            var result =await _sut.DeleteTaskById(model);
             result.Should().NotBeNull();
             result.Should().BeOfType<OkObjectResult>();
         }
         [Fact]
         public async Task DeleteTaskById_ShouldReturnNotFound_WhenTaskDoesntExist()
         {
-            var id = _fixture.Create<int>();
+            var model = _fixture.Create<DeleteTaskViewModel>();
 
-            _taskServiceMock.Setup(x => x.DeleteTask(id)).ReturnsAsync(false);
-            var result = await _sut.DeleteTaskById(id);
+            _taskServiceMock.Setup(x => x.DeleteTask(model.Id)).ReturnsAsync(false);
+            var result = await _sut.DeleteTaskById(model);
             result.Should().NotBeNull();
             result.Should().BeOfType<NotFoundObjectResult>();
         }
